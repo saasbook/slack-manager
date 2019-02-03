@@ -86,10 +86,9 @@ class manager {
                             .then((info) => {
                                 meeting.setName(info.name);
                                 return meeting.start(bot, message);
+                            }).then(() => {
+                                that.destroy(channelId);
                             });
-                    })
-                    .then(() => {
-                        that.destroy(channelId);
                     })
                     .catch((err) => {
                         console.error('Error', err);

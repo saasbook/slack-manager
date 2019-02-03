@@ -21,19 +21,9 @@ class mailer {
                 pass: config.get('mailer:pass')
             }
         });
-        var emails_split = emails.split(",");
-        var i = 0;
-        while (i < emails_split.length) {
-            if (emails_split[i].includes("|")) {
-                var inter = emails_split[i].split("|")[1];
-                emails_split[i] = inter.slice(0, inter.length-1);
-            }
-            i++;
-        }
-        emails = emails_split.join();
         this.options = {
             from: config.get('mail:from'),
-            to: emails,
+            to: config.get('mail:to'),
             subject: 'About your meeting today',
             text: content || 'No body.'
         };

@@ -17,11 +17,7 @@ class meeting extends EventEmitter {
     constructor(channelId) {
         super();
         this.channelId = channelId;
-        this.questions = [
-            'What did you do yesterday?',
-            'What are you going to do today?',
-            'Did you encounter any problems?'
-        ];
+        this.channelName = '';
         this.answers = [];
         this.isActive = true;
     }
@@ -46,6 +42,7 @@ class meeting extends EventEmitter {
      * @return {Promise}
      */
     start(bot, message) {
+        this.questions = config.get('questions:' + this.channelName) || config.get('questions:default');
         let that = this;
         let participantCount = 0;
 
@@ -128,17 +125,23 @@ class meeting extends EventEmitter {
                 });
             }, (err) => {
                 if(err) return reject(err);
-
-                bot.say({
-                    text: 'Meeting has ended. Results are mailed to ' +
-                        config.get('mail:to'),
-                    channel: that.channelId
+                let emails_list = "";
+                bot.startConversation(message, (err, convo) => {
+                    convo.say("Meeting has ended.");
+                    convo.ask("Who would you like to send these results to? " +
+                        "(you can write multiple emails separated with a comma ',')", (msg, convo) => {
+                        emails_list = msg["text"];
+                        let mailContent = MailerModel.mailify(that.answers, this.channelName);
+                        console.log("emails_list" + emails_list);
+                        let mailSender = new MailerModel(mailContent, emails_list);
+                        mailSender.send();
+                        resolve();
+                        bot.say({
+                            text: 'Results are mailed to ' + emails_list,
+                            channel: that.channelId
+                        });
+                    });
                 });
-
-                let mailContent = MailerModel.mailify(that.answers, this.channelName);
-                let mailSender = new MailerModel(mailContent);
-                mailSender.send();
-                resolve();
             });
         });
     }

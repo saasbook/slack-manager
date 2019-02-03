@@ -7,5 +7,4 @@ nconf.argv()
     .file({ file: 'config/default.json' })
     .file('custom_env', { file: 'config/' + NODE_ENV + '.json' });
 
-
 module.exports = nconf;

@@ -11,9 +11,9 @@ class mailer {
      *
      * @param  {String} content
      */
-    constructor(content, opt_settings) {
+    constructor(content, emails, opt_settings) {
         this.content = content;
-
+        console.log(emails);
         this.transporter = nodemailer.createTransport(opt_settings || {
             service: config.get('mailer:service'),
             auth: {
@@ -21,10 +21,19 @@ class mailer {
                 pass: config.get('mailer:pass')
             }
         });
-
+        var emails_split = emails.split(",");
+        var i = 0;
+        while (i < emails_split.length) {
+            if (emails_split[i].includes("|")) {
+                var inter = emails_split[i].split("|")[1];
+                emails_split[i] = inter.slice(0, inter.length-1);
+            }
+            i++;
+        }
+        emails = emails_split.join();
         this.options = {
             from: config.get('mail:from'),
-            to: config.get('mail:to'),
+            to: emails,
             subject: 'About your meeting today',
             text: content || 'No body.'
         };

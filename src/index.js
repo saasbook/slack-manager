@@ -21,6 +21,7 @@ new ManagerModel(controller);
 /**
  * Spawn controller and connect to Slack server.
  */
+ console.log(config.get("token"));
 controller
     .spawn({
         token: config.get('token')

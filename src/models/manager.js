@@ -76,7 +76,6 @@ class manager {
 
                 meeting = that.create(channelId);
                 let channel = new Channel(that.controller);
-
                 channel
                     .getMembers(channelId)
                     .then((members) => {

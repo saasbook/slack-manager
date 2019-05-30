@@ -128,3 +128,6 @@ License
 ----
 
 MIT
+
+### Teamscope Deployment
+Currently on AWS using pm2 for production-level deployment.

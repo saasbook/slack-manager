@@ -20,25 +20,23 @@ class channel {
 
         return new Promise((resolve, reject) => {
 
-            that.webApi.channels.info({
+            that.webApi.groups.info({
                 channel: channelId
             }, (err, res) => {
                 if (err) return reject(err);
-                resolve(res.channel);
+                resolve(res.group);
             });
         });
     }
 
     getMembers(channelId) {
         let that = this;
-
         return new Promise((resolve, reject) => {
-
-            that.webApi.channels.info({
+            that.webApi.groups.info({
                 channel: channelId
             }, (err, res) => {
                 if (err) return reject(err);
-                resolve(res.channel.members);
+                resolve(res.group.members);
             });
         })
         .then((members) => {

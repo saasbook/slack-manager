@@ -56,11 +56,9 @@ class meeting extends EventEmitter {
 
                 if(!that.isActive)
                     return;
-
                 bot.startConversation(message, (err, convo) => {
                     convo.say('Hello @' + participant.name +
                         ', it is your turn now.');
-
                     let skipParticipant = () => {
                         that.participants.push(participant);
                         convo.stop();

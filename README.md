@@ -79,6 +79,19 @@ Note: If no questions that has the same name as the channel found then the defau
 }
 ```
 
+## Deploy To Heroku
+
+Use Environment Variables in place of a config.json file.
+
+```
+token=YOUR-SLACK-TOKEN
+mailer:service
+mailer:email
+mailer:pass
+mail:from
+mail:to
+```
+
 ## Usage
 
 ### Install dependencies

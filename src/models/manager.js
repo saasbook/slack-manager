@@ -61,14 +61,17 @@ class manager {
 
         this.controller
             .hears(['start meeting'], 'ambient', (bot, message) => {
+                console.log('HEARD', message, bot);
+
                 let channelId = message.channel;
 
                 /**
                  * TODO: After storage implementation get rid of this.
                  */
                 let meeting = that.meetingExist(channelId);
-                if (meeting && !meeting.isActive)
+                if (meeting && !meeting.isActive) {
                     that.destroy(channelId);
+                }
 
                 if (meeting)
                     return bot.reply(message,

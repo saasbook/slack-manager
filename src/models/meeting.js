@@ -177,7 +177,7 @@ class meeting extends EventEmitter {
 
                     let mailContent = MailerModel.mailify(that.answers, this.channelName);
                     let mailSender = new MailerModel(mailContent);
-                    mailSender.send();
+                    mailSender.send(that.channelName);
                     resolve();
                 }
             });

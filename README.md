@@ -85,11 +85,11 @@ Use Environment Variables in place of a config.json file.
 
 ```
 token=YOUR-SLACK-TOKEN
-mailer:service
-mailer:email
-mailer:pass
-mail:from
-mail:to
+mailer_service=
+mailer_email=
+mailer_pass=
+mail_from=
+mail_to=
 ```
 
 ## Usage

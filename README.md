@@ -8,6 +8,7 @@ Advantages of Slack Manager from other services:
   - Configurable mail settings.
   - Configurable questions.
   - Works with multiple channels.
+  - Currently, the channels *must* be private channels.
 
 ![alt text](http://new.tinygrab.com/783f33d7b18d7bcd72f1de9785bcbf86e10c3eb82a.png "Slack-Manager")
 

@@ -92,17 +92,8 @@ class meeting extends EventEmitter {
                     channel: that.channelId
                 });
 
-                // Mostly usedful for debugging.
-                if (that.participants.length === 0) {
-                    bot.say({
-                        text: 'No avalaible users in this group. See ya later! :wave:',
-                        channel: that.channelId
-                    });
-                }
-
                 bot.startConversation(message, (err, convo) => {
-                    console.log('PARTICIPANT: ', participant)
-                    convo.say(`Hello < @${participant.id} >, it is your turn now.`);
+                    convo.say(`Hello <@${participant.id}>, it is your turn now.`);
                     let skipParticipant = () => {
                         that.participants.push(participant);
                         convo.stop();
@@ -171,16 +162,24 @@ class meeting extends EventEmitter {
                     return reject(err);
                 }
 
-                bot.say({
-                    text: 'Meeting has ended. Results are mailed to ' +
-                        config.get('mail:to'),
-                    channel: that.channelId
-                });
+                // Mostly usedful for debugging.
+                if (that.participants.length === 0) {
+                    bot.say({
+                        text: 'No avalaible users in this group. See ya later! :wave:',
+                        channel: that.channelId
+                    });
+                } else {
+                    bot.say({
+                        text: 'Meeting has ended. Results are mailed to ' +
+                            config.get('mail:to'),
+                        channel: that.channelId
+                    });
 
-                let mailContent = MailerModel.mailify(that.answers, this.channelName);
-                let mailSender = new MailerModel(mailContent);
-                mailSender.send();
-                resolve();
+                    let mailContent = MailerModel.mailify(that.answers, this.channelName);
+                    let mailSender = new MailerModel(mailContent);
+                    mailSender.send();
+                    resolve();
+                }
             });
         });
     }

@@ -67,8 +67,9 @@ class manager {
                  * TODO: After storage implementation get rid of this.
                  */
                 let meeting = that.meetingExist(channelId);
-                if (meeting && !meeting.isActive)
+                if (meeting && !meeting.isActive) {
                     that.destroy(channelId);
+                }
 
                 if (meeting)
                     return bot.reply(message,
@@ -76,11 +77,11 @@ class manager {
 
                 meeting = that.create(channelId);
                 let channel = new Channel(that.controller);
-
                 channel
                     .getMembers(channelId)
                     .then((members) => {
                         meeting.setMembers(members);
+                        // TODO: Reduce the nesting.
                         channel
                             .getChannelInfo(channelId)
                             .then((info) => {
@@ -91,6 +92,7 @@ class manager {
                             });
                     })
                     .catch((err) => {
+                        // TODO: Post a message somewhere.
                         console.error('Error', err);
                     });
             });
@@ -105,10 +107,10 @@ class manager {
             .hears(['help'], 'direct_mention', (bot, message) => {
                 bot.reply(message, "Commands\n \
                     `start meeting`\n \
-                    *Starts meeting. To be able to start meeting with \
+                    * Starts meeting. To be able to start meeting with \
                     this command your bot should be invited to the channel.\n \
                     `skip`\n \
-                    *Skips the current user's turn. Asks/Returns to the skipped \
+                    * Skips the current user's turn. Asks/Returns to the skipped \
                     users again at the end of the meeting. Can be skipped more than once.\n \
                     `dismiss`\n \
                     Dismisses the current user, in other words kicks the current user \
@@ -135,7 +137,6 @@ class manager {
                 meeting.emit(message.text);
                 that.destroy(message.channel);
             });
-
     }
 }
 

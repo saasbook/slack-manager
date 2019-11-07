@@ -13,7 +13,6 @@ class mailer {
      */
     constructor(content, emails, opt_settings) {
         this.content = content;
-        console.log(emails);
         this.transporter = nodemailer.createTransport(opt_settings || {
             service: config.get('mailer:service'),
             auth: {
@@ -33,8 +32,13 @@ class mailer {
     /**
      * send - Sends an email with pre-set settings.
      */
-    send() {
-        this.transporter.sendMail(this.options);
+    send(channelName) {
+        let options = _.extend(this.options, { subject: mailer.subject(channelName)});
+        this.transporter.sendMail(options);
+    }
+
+    static subject(channelName) {
+        return `Standup Notes for ${channelName} on ${new Date().toDateString()}`;
     }
 
     static mailify(answers, channelName){

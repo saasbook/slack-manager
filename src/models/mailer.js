@@ -9,10 +9,9 @@ class mailer {
    *
    * @param  {String} content
    */
-  constructor(content, emails, opt_settings) {
+  constructor(content, emails) {
     this.content = content;
-    this.transporter = nodemailer.createTransport(
-      opt_settings || {
+    this.transporter = nodemailer.createTransport({
         service: config.get("mailer:service"),
         auth: {
           user: config.get("mailer:email"),

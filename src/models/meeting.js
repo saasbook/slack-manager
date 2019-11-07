@@ -44,7 +44,7 @@ class meeting extends EventEmitter {
    */
   filterStaffRoles(members) {
     if (this.channelId === TESTING_CHANNEL) {
-      return members;
+      this.participants = members;
     }
     this.skippedMembers = _.filter(members, user => meeting.userIsStaff(user));
     this.participants = _.filter(members, user => !meeting.userIsStaff(user));
@@ -192,8 +192,8 @@ class meeting extends EventEmitter {
               text: `${MailerModel.subject(that.channelName)}\n${mailContent}`,
               channel: MEETING_RESULTS_CHANNEL
             });
-            // let mailSender = new MailerModel(mailContent);
-            // mailSender.send(that.channelName);
+            let mailSender = new MailerModel(mailContent);
+            mailSender.send(that.channelName);
             resolve();
           }
         }

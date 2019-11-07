@@ -18,11 +18,12 @@ new ManagerModel(controller);
 /**
  * Spawn controller and connect to Slack server.
  */
-console.log(config.get("token"));
 controller
   .spawn({
     token: config.get("token")
   })
   .startRTM((err, bot, payload) => {
-    if (err) return console.error("Error: ", err);
+    if (err) {
+      return console.error("Error: ", err);
+    }
   });

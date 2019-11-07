@@ -5,16 +5,18 @@
   "main": "src/index.js",
   "dependencies": {
     "async": "^1.5.0",
-    "botkit": "^0.7.2",
+    "botkit": "^0.7.5",
     "lodash": "^4.17.15",
-    "nconf": "^0.8.2",
+    "nconf": "^0.10.0",
     "nodemailer": "^1.10.0"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/saasbook/slack-manager"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "prettier": "^1.18.2"
+  },
   "engines": {
     "node": ">= 4.0.0"
   },

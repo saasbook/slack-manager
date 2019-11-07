@@ -1,7 +1,10 @@
 # Agile Development tool for Slack.
+
+### Note: This version has been customized for CS169 at UC Berkeley.
+
 Basically, "**Standup meetings for Slack**"
 
-Slack Manager allows teams to monitor employees on a daily basis. You can start a meeting by inviting your bot to your current channel and just write "start meeting".
+Slack Manager allows teams to conduct lightweight "standup" style meetings via Slack. You can start a meeting by inviting your bot to your current channel and just type "start meeting".
 
 Advantages of Slack Manager from other services:
   - Free and easy to use.
@@ -20,25 +23,30 @@ Advantages of Slack Manager from other services:
 
 Copy the API token that Slack gives you. You'll need it in the next step.
 
-### Installation
+### Installation & Running.
 
-Clone the repository by:
+* Clone the repository by:
 ```
-git clone https://github.com/anonrig/slack-manager
-```
-
-Install from NPM
-```
-npm install slack-manager --save
+git clone https://github.com/saasbook/slack-manager
 ```
 
-Create your settings file.
-
+* Install via NPM
 ```
-touch config/production.json
+npm install
 ```
 
-Mailer service uses nodemailer's transport methods. Therefore, for better understanding please read nodemailer's [available transports ](https://github.com/andris9/Nodemailer#available-transports).
+* Copy the environment file:
+```
+cp .env.sample .env
+```
+
+* Fill in `.env` with your unique values. **Do Not** put production tokens in the `.sample` file!
+
+* Run the bot using `foreman` or any other Procfile-based too. `foreman start`.
+
+* Alternatively, do `source .env && npm start`. You can test this locally as long as the Slack token is correct.
+
+Mailer service uses nodemailer's transport methods. Therefore, for better understanding please read nodemailer's [available transports ](https://github.com/nodemailer/Nodemailer#available-transports).
 
 For example for Gmail settings: change your settings file by:
 ```
@@ -52,9 +60,9 @@ For example for Gmail settings: change your settings file by:
 }
 ```
 
-Configure your questions
+### Configure your questions
 
-Open default.json and add a questions field shown below.
+Open `default.json` and add a questions field shown below.
 
 slack-manager lets users to ask different questions to different channels. If you prefer a single question list
 then you will only need the default field of the questions object. If you want to ask different questions to different channels
@@ -80,13 +88,22 @@ Note: If no questions that has the same name as the channel found then the defau
 }
 ```
 
+### Configure Staff and Rooms
+
+**NOTE:** The repo currently contains CS169 specific data!
+
+Set the 3 variables:
+* `TESTING_CHANNEL` This exempts checking `STAFF_IDS`.
+* `STAFF_IDS` This is a list of users for which the bot will always skip asking to provide a status.
+* `MEETING_RESULTS_CHANNEL` This is the channel where results are sent.
+
 ## Deploy To Heroku
 
-Use Environment Variables in place of a config.json file.
+Use Environment Variables in place of a `config.json` file.
 
 ```
 token=YOUR-SLACK-TOKEN
-mailer_service=Gmail # Unless you have a more complex config.
+mailer_service=gmail # Unless you have a more complex config.
 mailer_email= # A valid gmail / google apps address.
 mailer_pass= # A
 mail_from= # must match mailer_email
@@ -94,17 +111,6 @@ mail_to=
 ```
 
 ## Usage
-
-### Install dependencies
-```
-npm install
-```
-
-### Start your bot.
-
-```
-npm start
-```
 
 ### Commands
 
@@ -138,10 +144,6 @@ Slack-Manager uses a number of open source projects to work properly:
 
 Want to contribute? Great! Feel free to submit bugs, and open pull requests.
 
-License
-----
+## License
 
 MIT
-
-### Teamscope Deployment
-Currently on AWS using pm2 for production-level deployment.

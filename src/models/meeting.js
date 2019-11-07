@@ -6,8 +6,8 @@ const config = require('../config');
 const async = require('async');
 const EventEmitter = require('events').EventEmitter;
 
-const TESTING_CHANNEL = ''; //'GPK6W53TL'; // # berkeley-cs169 #course-staff-testing
-const STAFF_IDS = ['UMLKL2DC0', 'UGLUX4ALQ', 'UGZHDSF6E', '']; // ULWLD2GG7
+const TESTING_CHANNEL = 'GPK6W53TL'; // # berkeley-cs169 #course-staff-testing
+const STAFF_IDS = ['UMLKL2DC0', 'UGLUX4ALQ', 'UGZHDSF6E', 'ULWLD2GG7'];
 const MEETING_RESULTS_CHANNEL = 'GQ0RRR1K3';
 
 class meeting extends EventEmitter {
@@ -171,8 +171,7 @@ class meeting extends EventEmitter {
                     });
                 } else {
                     bot.say({
-                        text: 'Meeting has ended. Results are mailed to ' +
-                            config.get('mail:to'),
+                        text: 'Meeting has ended.\nThank you! :smile:',
                         channel: that.channelId
                     });
 

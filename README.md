@@ -86,10 +86,10 @@ Use Environment Variables in place of a config.json file.
 
 ```
 token=YOUR-SLACK-TOKEN
-mailer_service=
-mailer_email=
-mailer_pass=
-mail_from=
+mailer_service=Gmail # Unless you have a more complex config.
+mailer_email= # A valid gmail / google apps address.
+mailer_pass= # A
+mail_from= # must match mailer_email
 mail_to=
 ```
 

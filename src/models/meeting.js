@@ -7,7 +7,8 @@ const async = require('async');
 const EventEmitter = require('events').EventEmitter;
 
 const TESTING_CHANNEL = ''; //'GPK6W53TL'; // # berkeley-cs169 #course-staff-testing
-const STAFF_IDS = ['UMLKL2DC0', 'UGLUX4ALQ', 'UGZHDSF6E', 'ULWLD2GG7'];
+const STAFF_IDS = ['UMLKL2DC0', 'UGLUX4ALQ', 'UGZHDSF6E', '']; // ULWLD2GG7
+const MEETING_RESULTS_CHANNEL = 'GQ0RRR1K3';
 
 class meeting extends EventEmitter {
 
@@ -165,7 +166,7 @@ class meeting extends EventEmitter {
                 // Mostly usedful for debugging.
                 if (that.participants.length === 0) {
                     bot.say({
-                        text: 'No avalaible users in this group. See ya later! :wave:',
+                        text: 'No available users in this group. See ya later! :wave:',
                         channel: that.channelId
                     });
                 } else {
@@ -176,8 +177,13 @@ class meeting extends EventEmitter {
                     });
 
                     let mailContent = MailerModel.mailify(that.answers, this.channelName);
-                    let mailSender = new MailerModel(mailContent);
-                    mailSender.send(that.channelName);
+                    // TODO: Temporarily send messages to a specific channel.
+                    bot.say({
+                        text: `${MailerModel.subject(that.channelName)}\n${mailContent}`,
+                        channel: MEETING_RESULTS_CHANNEL
+                    });
+                    // let mailSender = new MailerModel(mailContent);
+                    // mailSender.send(that.channelName);
                     resolve();
                 }
             });

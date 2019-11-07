@@ -13,7 +13,6 @@ class mailer {
      */
     constructor(content, emails, opt_settings) {
         this.content = content;
-        console.log(emails);
         this.transporter = nodemailer.createTransport(opt_settings || {
             service: config.get('mailer:service'),
             auth: {

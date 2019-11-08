@@ -45,7 +45,7 @@ class meeting extends EventEmitter {
   filterStaffRoles(members) {
     if (this.channelId === TESTING_CHANNEL) {
       this.participants = members;
-      this.skippedMembers = [];
+      return;
     }
 
     this.skippedMembers = _.filter(members, user => meeting.userIsStaff(user));

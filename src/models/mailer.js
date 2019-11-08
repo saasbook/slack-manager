@@ -1,6 +1,7 @@
 "use strict";
 
 const nodemailer = require("nodemailer");
+const _ = require("lodash");
 const config = require("../config");
 
 class mailer {

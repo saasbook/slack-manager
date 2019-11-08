@@ -62,7 +62,10 @@ class meeting extends EventEmitter {
   }
 
   skippedStaffMessage() {
-    return `(Skipping ${this.skippedMembers.length} staff members in this group.)`;
+    if (this.skippedMembers.length === 0) {
+      return '';
+    }
+    return `\n(Skipping ${this.skippedMembers.length} staff members in this group.)`;
   }
 
   /**
@@ -79,6 +82,11 @@ class meeting extends EventEmitter {
     let that = this;
     let participantCount = 0;
 
+    bot.say({
+      text: `Awesome :smile:, let\'s get started!${this.skippedStaffMessage()}`,
+      channel: that.channelId
+    });
+
     return new Promise((resolve, reject) => {
       async.whilst(
         () => {
@@ -91,11 +99,6 @@ class meeting extends EventEmitter {
           if (!that.isActive) {
             return;
           }
-
-          bot.say({
-            text: `Awesome :smile:, let\'s get started!\n${that.skippedStaffMessage()}`,
-            channel: that.channelId
-          });
 
           bot.startConversation(message, (err, convo) => {
             convo.say(`Hello <@${participant.id}>, it is your turn now.`);

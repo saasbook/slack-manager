@@ -102,10 +102,6 @@ class meeting extends EventEmitter {
 
           bot.startConversation(message, (err, convo) => {
             convo.say(`Hello <@${participant.id}>, it is your turn now.`);
-            let skipParticipant = () => {
-              that.participants.push(participant);
-              convo.stop();
-            };
 
             let dismissParticipant = () => {
               convo.stop();
@@ -116,12 +112,23 @@ class meeting extends EventEmitter {
                 text: "Meeting is over",
                 channel: that.channelId
               });
+
+              let mailContent = MailerModel.mailify(
+                that.answers,
+                this.channelName
+              );
+              // TODO: Temporarily send messages to a specific channel.
+              bot.say({
+                text: `${MailerModel.subject(that.channelName)}\n${mailContent}`,
+                channel: MEETING_RESULTS_CHANNEL
+              });
+
               that.finish();
               convo.stop();
             };
 
             that
-              .once("skip", skipParticipant)
+              .once("skip", () => that.skipParticipant(participant, convo))
               .once("dismiss", dismissParticipant)
               .once("quit", quitConversation);
 
@@ -152,17 +159,17 @@ class meeting extends EventEmitter {
             });
 
             // TODO: Randomize the emoji.
-            convo.say(`Thank you, ${participant.profile.first_name}. :tada:`);
+            convo.say(`Thank you, ${friendlyName(participant)}. :tada:`);
 
             convo.on("end", convo => {
-              if (convo.status != "stopped")
+              if (convo.status != "stopped")2
                 that.answers.push({
                   participant: participant,
                   answer: userAnswers
                 });
 
               that
-                .removeListener("skip", skipParticipant)
+                .removeListener("skip", () => that.skipParticipant(participant, convo))
                 .removeListener("dismiss", dismissParticipant)
                 .removeListener("quit", quitConversation);
 
@@ -197,14 +204,23 @@ class meeting extends EventEmitter {
               text: `${MailerModel.subject(that.channelName)}\n${mailContent}`,
               channel: MEETING_RESULTS_CHANNEL
             });
-            let mailSender = new MailerModel(mailContent);
-            mailSender.send(that.channelName);
+            // let mailSender = new MailerModel(mailContent);
+            // mailSender.send(that.channelName);
             resolve();
           }
         }
       );
     });
   }
+
+  skipParticipant = (participant, convo) => {
+    this.participants.push(participant);
+    convo.stop();
+  };
+}
+
+function friendlyName(user) {
+  user.profile.first_name || user.name || user.real_name;
 }
 
 module.exports = meeting;

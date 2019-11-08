@@ -55,7 +55,7 @@ class manager {
   bindEvents_() {
     let that = this;
 
-    this.controller.hears(["start meeting"], "ambient", (bot, message) => {
+    this.controller.hears(["start meeting"], ["ambient", "direct_mention"], (bot, message) => {
       let channelId = message.channel;
 
       /**
@@ -105,18 +105,17 @@ class manager {
     this.controller.hears(["help"], "direct_mention", (bot, message) => {
       bot.reply(
         message,
-        "Commands\n \
-        `start meeting`\n \
-        * Starts meeting. To be able to start meeting with \
-        this command your bot should be invited to the channel.\n \
-        `skip`\n \
-        * Skips the current user's turn. Asks/Returns to the skipped \
-        users again at the end of the meeting. Can be skipped more than once.\n \
-        `dismiss`\n \
-        Dismisses the current user, in other words kicks the current user \
-        out of the meeting. Useful in case of an absence.\n \
-        `quit`\n \
-        Ends the meeting. Meeting can be restarted by typing start meeting again."
+`
+*Commands*:
+> \`start meeting\`
+* Starts meeting. To be able to start meeting with this command your bot should be invited to the channel.
+> \`skip\`
+* Skips the current user's turn. Asks to the skipped users again at the end of the meeting. Can be skipped more than once.
+> \`dismiss\`
+* Dismisses the current user, in other words kicks the current user out of the meeting. Useful in case of an absence.
+> \`quit\`
+* Ends the meeting. Meeting can be restarted by typing start meeting again.
+`
       );
     });
 
